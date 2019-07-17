@@ -1,0 +1,106 @@
+use Libraries.Robots.Lego.Button 
+use Libraries.Robots.Lego.Sound
+use Libraries.Robots.Lego.Screen
+use Libraries.Robots.Lego.Utility
+use Libraries.System.File
+use Libraries.Sound.Audio
+
+Button button//instantiate libraries or makes it real
+Sound sound
+Screen screen
+Utility utility
+
+//create the space to hold the audio files... is more effective to load and then unload then load just the next song?
+File audio0
+File audio1
+File audio2
+File audio3
+File audio4
+File audio5
+File audio6
+File audio7
+File audio8
+
+//set the path or location of the audio files, this assumes the wav files exisit in the same directory as the running JAR file. 
+audio0:SetPath("intro.wav")
+audio1:SetPath("Song1.wav")
+audio2:SetPath("Song2.wav")
+audio3:SetPath("Song3.wav")
+audio4:SetPath("Song4.wav")
+audio5:SetPath("Song5.wav")
+audio6:SetPath("Song6.wav")
+audio7:SetPath("Song7.wav")
+audio8:SetPath("Song8.wav")
+
+integer volume =50
+integer songnumber = 0
+integer playstate=0
+
+sound:PlayAudio(audio0) // plays the instructions
+ 
+button:WaitForButtonPress()//waits for a press of any button to start
+
+
+repeat until button:IsButtonPressed(button:ESCAPE_BUTTON)//loop see last end
+
+   if button:IsButtonPressed(button:LEFT_BUTTON) //if and elseif are powerful
+   songnumber = songnumber-1
+        if songnumber<1 
+        songnumber=1
+        end
+    utility:DelayMilliseconds(500)
+    elseif button:IsButtonPressed(button:RIGHT_BUTTON)
+        songnumber = songnumber+1
+        if songnumber >8 
+        songnumber=8
+        end       
+    elseif button:IsButtonPressed(button:UP_BUTTON)
+        volume=volume+10 
+        if volume>100 
+        volume =100
+        end    
+       sound:SetVolume(volume)
+       sound:BeepSequenceUp()
+       utility:DelayMilliseconds(500)
+    elseif button:IsButtonPressed(button:DOWN_BUTTON)
+       volume=volume-10 
+       sound:SetVolume(volume)
+       sound:BeepSequenceDown()
+       utility:DelayMilliseconds(500)
+
+    elseif songnumber =1 sound:PlayAudio(audio1) 
+    elseif songnumber =2 sound:PlayAudio(audio2)
+    elseif songnumber =3 sound:PlayAudio(audio3)
+    elseif songnumber =4 sound:PlayAudio(audio4)
+    elseif songnumber =5 sound:PlayAudio(audio5)
+    elseif songnumber =6 sound:PlayAudio(audio6)
+    elseif songnumber =5 sound:PlayAudio(audio7)
+    elseif songnumber =6 sound:PlayAudio(audio8)
+   
+    elseif button:IsButtonPressed(button:CENTER_BUTTON)
+    utility:DelayMilliseconds(500)
+  
+
+    end//end of the IF set
+screen:OutputCenter("EV3 Music Player", 1)
+screen:OutputCenter("Song number "+ songnumber, 2)
+screen:OutputCenter("Volume = "+ volume +"%", 3)
+end//end of repeat until
+
+utility:DelayMilliseconds(500)
+//Pause()
+//Resume()
+// if audio:IsPlaying()
+
+//        button:SetLightPattern(7)
+//        sound:BeepTwice()
+//        screen:Clear()
+//        screen:DrawRectangleFull(60, 80, 20, 20)
+//        screen:DrawRectangleFull(116, 80, 20, 25)
+//        screen:DrawLine(40, 40, 136, 40)
+//        screen:DrawLine(40, 40, 40, 50)
+//        screen:DrawLine(136, 40, 136, 50)
+//        button:WaitForButtonPress()
+//        screen:Clear()
+//     elseif audio1:IsPlaying()  
+//    screen:OutputCenter("The audio one is playing", 2)
